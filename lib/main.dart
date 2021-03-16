@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'services/screen_manager.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -36,10 +38,30 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  int currentScreenIndex = 0;
+  void onTapped(index) {
+    setState(() {
+      currentScreenIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Vitrine237')),
+      body: screens[currentScreenIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentScreenIndex,
+        type: BottomNavigationBarType.fixed,
+        showUnselectedLabels: false,
+        onTap: onTapped,
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.whatshot_sharp), label: "Discover"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.account_circle_outlined), label: "Account"),
+        ],
+      ),
     );
   }
 }

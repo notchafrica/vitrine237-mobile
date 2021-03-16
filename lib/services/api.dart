@@ -23,13 +23,13 @@ class API {
   }
 
   static get(url) async {
-    var prettyUrl = Config.baseUrl + url ;
+    var prettyUrl = Config.baseUrl + url;
     var header = await __setHeaders();
     return await http.get(prettyUrl, headers: header);
   }
 
   static delete(url) async {
-    var pretyUrl = Config.baseUrl + url ;
+    var pretyUrl = Config.baseUrl + url;
 
     var header = await __setHeaders();
 
