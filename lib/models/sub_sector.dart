@@ -1,7 +1,7 @@
 import 'package:vitrine237/models/category.dart';
 
 class SubSector {
-  String id;
+  int id;
   String name;
   String slug;
   String companiesNumber;

@@ -12,24 +12,30 @@ mixin _$CategoriesStore on _CategoriesStore, Store {
   final _$categoriesAtom = Atom(name: '_CategoriesStore.categories');
 
   @override
-  List<Category> get categories {
+  ObservableFuture<List<Category>> get categories {
     _$categoriesAtom.reportRead();
     return super.categories;
   }
 
   @override
-  set categories(List<Category> value) {
+  set categories(ObservableFuture<List<Category>> value) {
     _$categoriesAtom.reportWrite(value, super.categories, () {
       super.categories = value;
     });
   }
 
-  final _$getCategoriesAsyncAction =
-      AsyncAction('_CategoriesStore.getCategories');
+  final _$_CategoriesStoreActionController =
+      ActionController(name: '_CategoriesStore');
 
   @override
   Future<dynamic> getCategories() {
-    return _$getCategoriesAsyncAction.run(() => super.getCategories());
+    final _$actionInfo = _$_CategoriesStoreActionController.startAction(
+        name: '_CategoriesStore.getCategories');
+    try {
+      return super.getCategories();
+    } finally {
+      _$_CategoriesStoreActionController.endAction(_$actionInfo);
+    }
   }
 
   @override

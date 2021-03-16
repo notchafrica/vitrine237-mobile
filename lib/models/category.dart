@@ -1,7 +1,7 @@
 import 'package:vitrine237/models/sub_sector.dart';
 
 class Category {
-  String id;
+  int id;
   String name;
   String slug;
   List<SubSector> subSectors = [];

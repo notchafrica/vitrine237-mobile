@@ -8,7 +8,7 @@ class CategoriesProvider {
   static Future<List<Category>> index() async {
     var r = await API.get('/categories');
     var rParsed = jsonDecode(r.body);
-    return rParsed['data']
+    return rParsed
         .map<Category>((category) => Category(
             id: category['id'],
             name: category['name'],

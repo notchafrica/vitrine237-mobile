@@ -8,10 +8,9 @@ class CategoriesStore = _CategoriesStore with _$CategoriesStore;
 
 abstract class _CategoriesStore with Store {
   @observable
-  List<Category> categories;
+  ObservableFuture<List<Category>> categories;
 
   @action
-  Future getCategories() async {
-    categories = await CategoriesProvider.index();
-  }
+  Future getCategories() => categories = ObservableFuture(
+      CategoriesProvider.index().then((List<Category> result) => result));
 }
