@@ -40,6 +40,7 @@ dependencies:
   badges: ^1.1.3
   md2_tab_indicator: ^1.0.2
   flutter_masked_text: ^0.8.0
+  cached_network_image: ^2.5.1
   http: ^0.12.2
   wc_form_validators: ^0.1.1
   mobx: ^1.2.1+3

@@ -1,8 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobx/mobx.dart';
+import 'package:vitrine237/models/company.dart';
+import 'package:vitrine237/stores/companies/company_store.dart';
 import 'package:vitrine237/stores/gategories/categories_store.dart';
+
+import 'company_detals_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -11,11 +16,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   CategoriesStore _categoriesStore = CategoriesStore();
+  CompanyStore _companyStore = CompanyStore();
 
   @override
   void initState() {
     super.initState();
     _categoriesStore.getCategories();
+    _companyStore.getTrending();
   }
 
   @override
@@ -39,12 +46,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, i) {
                       return Container(
-                        width: 160,
+                        width: 140,
                         child: Column(
                           children: [
                             Container(
                               width: 60,
                               height: 60,
+                              margin: EdgeInsets.symmetric(horizontal: 16),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(60),
                                   color: Theme.of(context)
@@ -74,9 +82,70 @@ class _HomeScreenState extends State<HomeScreen> {
               default:
                 return SizedBox();
             }
+          }),
+          ListTile(
+            title: Text("Tendances actuelles"),
+            subtitle: Text("Entreprises les plus vues du moment"),
+          ),
+          Observer(builder: (_) {
+            switch (_companyStore.trending.status) {
+              case FutureStatus.pending:
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+                break;
+              case FutureStatus.fulfilled:
+                return Column(
+                  children: _trendingCompanies(_companyStore.trending.result),
+                );
+
+                break;
+              default:
+                return SizedBox();
+            }
           })
         ],
       ),
     );
+  }
+
+  List<Widget> _trendingCompanies(List<Company> items) {
+    List<Widget> companies = [];
+
+    for (var company in items) {
+      companies.add(ListTile(
+          onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => CompanyDetailsScreen(
+                        company: company,
+                      ))),
+          title: Text(
+            company.name,
+            overflow: TextOverflow.ellipsis,
+          ),
+          leading: Container(
+              width: 60,
+              height: 60,
+              child: CachedNetworkImage(
+                fit: BoxFit.cover,
+                imageUrl: company.poster != null
+                    ? company.poster
+                    : "http://via.placeholder.com/350x150",
+                placeholder: (context, url) => CircularProgressIndicator(),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ),
+              decoration: BoxDecoration(
+                color: Colors.red.withOpacity(.3),
+                borderRadius: BorderRadius.circular(5),
+                //image: NetworkImage,
+              )),
+          subtitle: Text(
+            company.subSector.name,
+            overflow: TextOverflow.ellipsis,
+          )));
+    }
+
+    return companies;
   }
 }
