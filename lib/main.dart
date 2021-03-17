@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vitrine237/screens/home_screen.dart';
 
 import 'services/screen_manager.dart';
 
@@ -48,20 +49,6 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Vitrine237')),
-      body: screens[currentScreenIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentScreenIndex,
-        type: BottomNavigationBarType.fixed,
-        showUnselectedLabels: false,
-        onTap: onTapped,
-        items: [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.whatshot_sharp), label: "Discover"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle_outlined), label: "Account"),
-        ],
-      ),
-    );
+        appBar: AppBar(title: Text('Vitrine237')), body: HomeScreen());
   }
 }

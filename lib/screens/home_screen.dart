@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Text(
                               _categoriesStore.categories.result[i].name,
                               textAlign: TextAlign.center,
-                              overflow: TextOverflow.ellipsis,
+                              softWrap: true,
                             )
                           ],
                         ),
@@ -131,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 fit: BoxFit.cover,
                 imageUrl: company.poster != null
                     ? company.poster
-                    : "http://via.placeholder.com/350x150",
+                    : "https://vitrine237.cm/assets/favicon-96x96.png",
                 placeholder: (context, url) => CircularProgressIndicator(),
                 errorWidget: (context, url, error) => Icon(Icons.error),
               ),

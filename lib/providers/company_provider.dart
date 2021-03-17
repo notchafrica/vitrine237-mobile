@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:vitrine237/models/category.dart';
 import 'package:vitrine237/models/company.dart';
 import 'package:vitrine237/models/post.dart';
 import 'package:vitrine237/models/sub_sector.dart';
@@ -77,15 +78,18 @@ class CompanyProvider {
                     .toList(),
             subSector: SubSector(
                 name: company['sub_sector']['name'],
-                slug: company['sub_sector']['slug']),
+                slug: company['sub_sector']['slug'],
+                sector: Category(
+                    name: company['sub_sector']['sector']['name'],
+                    slug: company['sub_sector']['sector']['slug'])),
             posts: company['posts'] == null
                 ? []
                 : company['posts']
                     .map<Post>((product) => Post(
-                          title: product['title'],
-                          slug: product['slug'],
-                          poster: product['poster'],
-                        ))
+                        title: product['title'],
+                        slug: product['slug'],
+                        poster: product['poster'],
+                        content: product['content']))
                     .toList()))
         .toList();
   }
