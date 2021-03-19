@@ -19,30 +19,66 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.company.name),
         actions: [
           IconButton(
               icon: Icon(Icons.mail),
+              tooltip: "Envoyer un email",
               onPressed: () async {
-                launch(emailLauncher(widget.company.email).toString());
+                final String url =
+                    emailLauncher(widget.company.email).toString();
+                if (await canLaunch(url)) {
+                  await launch(url);
+                } else {
+                  throw 'Could not launch $url';
+                }
               }),
           IconButton(
               icon: Icon(Icons.phone),
-              onPressed: () {
-                launch("tel:" + widget.company.phone);
-              }),
+              tooltip: "Passer un appel",
+              onPressed: widget.company.phone == null
+                  ? null
+                  : () async {
+                      final String url = "tel:" + widget.company.phone;
+                      if (await canLaunch(url)) {
+                        await launch(url);
+                      } else {
+                        throw 'Could not launch $url';
+                      }
+                    }),
           IconButton(
               icon: Icon(FontAwesome5Brands.whatsapp),
-              onPressed: () {
-                launch("whatsapp:" + widget.company.phone);
-              }),
+              tooltip: "Lassez un message",
+              onPressed: widget.company.phone2 == null
+                  ? null
+                  : () async {
+                      final String url =
+                          "https://wa.me/" + widget.company.phone2;
+                      if (await canLaunch(url)) {
+                        await launch(url);
+                      } else {
+                        throw 'Could not launch $url';
+                      }
+                    }),
+          IconButton(
+              icon: Icon(FontAwesome.globe),
+              tooltip: "Visiter le site web",
+              onPressed: widget.company.website == null
+                  ? null
+                  : () async {
+                      final String url = widget.company.website;
+                      if (await canLaunch(url)) {
+                        await launch(url, forceWebView: true);
+                      } else {
+                        throw 'Could not launch $url';
+                      }
+                    }),
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             Container(
-              height: MediaQuery.of(context).size.height * .3,
+              height: 300,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                   image: DecorationImage(
@@ -50,7 +86,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen> {
                       image: CachedNetworkImageProvider(
                           "https://vitrine237.cm/assets/img/listings-details.jpg")),
                   borderRadius:
-                      BorderRadius.vertical(bottom: Radius.circular(4))),
+                      BorderRadius.vertical(bottom: Radius.circular(6))),
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 child: Padding(
@@ -157,7 +193,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen> {
                           text: "Posts",
                         ),
                         Tab(
-                          text: "Nous Contacter",
+                          text: "Partenaires",
                         ),
                       ],
                     ),
@@ -165,14 +201,62 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen> {
                       constraints: BoxConstraints.expand(
                           height: MediaQuery.of(context).size.height),
                       child: TabBarView(children: [
-                        Text(widget.company.about),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(widget.company.about),
+                            SizedBox(
+                              height: 12,
+                            ),
+                            Card(
+                                child: Column(children: [
+                              ListTile(
+                                leading: Icon(FontAwesome.map_marker),
+                                title: Text(widget.company.city.name),
+                                subtitle: Column(
+                                  children: [
+                                    Text(widget.company.town),
+                                    Text(widget.company.landmark)
+                                  ],
+                                ),
+                              ),
+                              ListTile(
+                                  leading: Icon(Icons.email),
+                                  title: Text(widget.company.email)),
+                              ListTile(
+                                  leading: Icon(Icons.phone),
+                                  title: Text(widget.company.phone)),
+                              ListTile(
+                                  leading: Icon(FontAwesome5Brands.whatsapp),
+                                  title: Text(widget.company.phone2)),
+                              ListTile(
+                                  leading: Icon(FontAwesome5Brands.twitter),
+                                  title: Text(widget.company.twitterUrl)),
+                              ListTile(
+                                  leading: Icon(FontAwesome5Brands.facebook),
+                                  title: Text(widget.company.facebookUrl)),
+                              ListTile(
+                                  leading: Icon(FontAwesome5Brands.youtube),
+                                  title: Text(widget.company.youtubeUrl)),
+                              ListTile(
+                                  leading: Icon(FontAwesome.globe),
+                                  title: Text(widget.company.website))
+                            ]))
+                          ],
+                        ),
                         Container(
                           width: MediaQuery.of(context).size.width,
                           child: Column(
                             children: _loadPosts(),
                           ),
                         ),
-                        Text('fhfhfh'),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          child: Column(
+                            children: _loadPartners(),
+                          ),
+                        ),
                       ]),
                     )
                   ],
@@ -223,10 +307,50 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen> {
     return posts;
   }
 
+  List<Widget> _loadPartners() {
+    List<Widget> posts = [];
+
+    for (var company in widget.company.sponsorships) {
+      posts.add(ListTile(
+          onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => CompanyDetailsScreen(
+                        company: company,
+                      ))),
+          title: Text(
+            company.name,
+            overflow: TextOverflow.ellipsis,
+          ),
+          leading: Container(
+              width: 60,
+              height: 60,
+              child: CachedNetworkImage(
+                fit: BoxFit.cover,
+                imageUrl: company.poster != null
+                    ? company.poster
+                    : "https://vitrine237.cm/assets/favicon-96x96.png",
+                placeholder: (context, url) => CircularProgressIndicator(),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ),
+              decoration: BoxDecoration(
+                color: Colors.red.withOpacity(.3),
+                borderRadius: BorderRadius.circular(5),
+                //image: NetworkImage,
+              )),
+          subtitle: Text(
+            company.subSector.name,
+            overflow: TextOverflow.ellipsis,
+          )));
+    }
+
+    return posts;
+  }
+
   Uri emailLauncher(email) {
     return Uri(
         scheme: 'mailto',
         path: email,
-        queryParameters: {'subject': 'Hello from Vitrine237 APP'});
+        queryParameters: {'subject': 'Vitrine237'});
   }
 }

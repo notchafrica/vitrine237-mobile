@@ -97,8 +97,9 @@ class CompanyProvider {
   static Future<List<Company>> latest() async {
     var r = await API.get('/companies/latest');
     var rParsed = jsonDecode(r.body);
-    return rParsed
+    return rParsed['data']
         .map<Company>((company) => Company(
+            id: company['id'],
             name: company['name'],
             slug: company['slug'],
             about: company['about'],
