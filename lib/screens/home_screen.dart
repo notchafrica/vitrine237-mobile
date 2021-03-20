@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobx/mobx.dart';
 import 'package:vitrine237/models/company.dart';
+import 'package:vitrine237/screens/category_details_screen.dart';
 import 'package:vitrine237/stores/companies/company_store.dart';
 import 'package:vitrine237/stores/gategories/categories_store.dart';
 import 'package:vitrine237/stores/states/states_store.dart';
@@ -49,32 +50,41 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, i) {
-                      return Container(
-                        width: 140,
-                        child: Column(
-                          children: [
-                            Container(
-                              width: 60,
-                              height: 60,
-                              margin: EdgeInsets.symmetric(horizontal: 16),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(60),
-                                  color: Theme.of(context)
-                                      .primaryColor
-                                      .withOpacity(.3)),
-                              child: Icon(
-                                FontAwesomeIcons.box,
-                                color: Theme.of(context).primaryColor,
-                                size: 26,
+                      return InkWell(
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CategoryDetailsScreen(
+                                      category:
+                                          _categoriesStore.categories.result[i],
+                                    ))),
+                        child: Container(
+                          width: 140,
+                          child: Column(
+                            children: [
+                              Container(
+                                width: 60,
+                                height: 60,
+                                margin: EdgeInsets.symmetric(horizontal: 16),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: Theme.of(context)
+                                        .primaryColor
+                                        .withOpacity(.3)),
+                                child: Icon(
+                                  FontAwesomeIcons.box,
+                                  color: Theme.of(context).primaryColor,
+                                  size: 26,
+                                ),
                               ),
-                            ),
-                            SizedBox(height: 8),
-                            Text(
-                              _categoriesStore.categories.result[i].name,
-                              textAlign: TextAlign.center,
-                              softWrap: true,
-                            )
-                          ],
+                              SizedBox(height: 8),
+                              Text(
+                                _categoriesStore.categories.result[i].name,
+                                textAlign: TextAlign.center,
+                                softWrap: true,
+                              )
+                            ],
+                          ),
                         ),
                       );
                     },

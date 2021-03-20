@@ -24,6 +24,37 @@ mixin _$CategoriesStore on _CategoriesStore, Store {
     });
   }
 
+  final _$companiesAtom = Atom(name: '_CategoriesStore.companies');
+
+  @override
+  ObservableFuture<List<Company>> get companies {
+    _$companiesAtom.reportRead();
+    return super.companies;
+  }
+
+  @override
+  set companies(ObservableFuture<List<Company>> value) {
+    _$companiesAtom.reportWrite(value, super.companies, () {
+      super.companies = value;
+    });
+  }
+
+  final _$subsectorCompaniesAtom =
+      Atom(name: '_CategoriesStore.subsectorCompanies');
+
+  @override
+  ObservableFuture<List<Company>> get subsectorCompanies {
+    _$subsectorCompaniesAtom.reportRead();
+    return super.subsectorCompanies;
+  }
+
+  @override
+  set subsectorCompanies(ObservableFuture<List<Company>> value) {
+    _$subsectorCompaniesAtom.reportWrite(value, super.subsectorCompanies, () {
+      super.subsectorCompanies = value;
+    });
+  }
+
   final _$_CategoriesStoreActionController =
       ActionController(name: '_CategoriesStore');
 
@@ -39,9 +70,33 @@ mixin _$CategoriesStore on _CategoriesStore, Store {
   }
 
   @override
+  Future<dynamic> getCompanies(Category state) {
+    final _$actionInfo = _$_CategoriesStoreActionController.startAction(
+        name: '_CategoriesStore.getCompanies');
+    try {
+      return super.getCompanies(state);
+    } finally {
+      _$_CategoriesStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  Future<dynamic> getCompaniesBySector(SubSector state) {
+    final _$actionInfo = _$_CategoriesStoreActionController.startAction(
+        name: '_CategoriesStore.getCompaniesBySector');
+    try {
+      return super.getCompaniesBySector(state);
+    } finally {
+      _$_CategoriesStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-categories: ${categories}
+categories: ${categories},
+companies: ${companies},
+subsectorCompanies: ${subsectorCompanies}
     ''';
   }
 }
