@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:vitrine237/models/category.dart';
+import 'package:vitrine237/models/city.dart';
 import 'package:vitrine237/models/company.dart';
 import 'package:vitrine237/models/post.dart';
 import 'package:vitrine237/models/sub_sector.dart';
@@ -25,6 +26,8 @@ class CompanyProvider {
             instagramUrl: company['instagram_url'],
             facebookUrl: company['facebook_url'],
             landmark: company['landmark'],
+            city: City(
+                name: company['city']['name'], slug: company['city']['slug']),
             lat: company['lat'],
             lng: company['lng'],
             zipCode: company['zip_code'],
@@ -62,6 +65,8 @@ class CompanyProvider {
             phone: company['phone'],
             phone2: company['phone2'],
             email: company['email'],
+            city: City(
+                name: company['city']['name'], slug: company['city']['slug']),
             website: company['website'],
             instagramUrl: company['instagram_url'],
             facebookUrl: company['facebook_url'],
@@ -108,6 +113,8 @@ class CompanyProvider {
             phone: company['phone'],
             phone2: company['phone2'],
             email: company['email'],
+            city: City(
+                name: company['city']['name'], slug: company['city']['slug']),
             website: company['website'],
             instagramUrl: company['instagram_url'],
             facebookUrl: company['facebook_url'],

@@ -36,7 +36,6 @@ class _SubsectorDetailsScreenState extends State<SubsectorDetailsScreen> {
             );
             break;
           case FutureStatus.fulfilled:
-            print(_categoriesStore.subsectorCompanies.result);
             return ListView.builder(
                 itemCount: _categoriesStore.subsectorCompanies.result.length,
                 itemBuilder: (context, i) {

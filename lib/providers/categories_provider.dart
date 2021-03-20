@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:vitrine237/models/category.dart';
+import 'package:vitrine237/models/city.dart';
 import 'package:vitrine237/models/company.dart';
 import 'package:vitrine237/models/post.dart';
 import 'package:vitrine237/models/sub_sector.dart';
@@ -40,6 +41,8 @@ class CategoriesProvider {
             poster: company['poster'],
             backdrop: company['backdrop'],
             phone: company['phone'],
+            city: City(
+                name: company['city']['name'], slug: company['city']['slug']),
             phone2: company['phone2'],
             email: company['email'],
             website: company['website'],
@@ -86,6 +89,8 @@ class CategoriesProvider {
             poster: company['poster'],
             backdrop: company['backdrop'],
             phone: company['phone'],
+            city: City(
+                name: company['city']['name'], slug: company['city']['slug']),
             phone2: company['phone2'],
             email: company['email'],
             website: company['website'],
