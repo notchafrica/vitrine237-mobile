@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobx/mobx.dart';
 import 'package:vitrine237/models/company.dart';
 import 'package:vitrine237/screens/category_details_screen.dart';
+import 'package:vitrine237/screens/state_details_screen.dart';
 import 'package:vitrine237/stores/companies/company_store.dart';
 import 'package:vitrine237/stores/gategories/categories_store.dart';
 import 'package:vitrine237/stores/states/states_store.dart';
@@ -138,6 +139,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, i) {
                       return InkWell(
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => StateDetailsScreen(
+                                      state: _statesStore.states.result[i],
+                                    ))),
                         child: Container(
                           width: 140,
                           child: Column(

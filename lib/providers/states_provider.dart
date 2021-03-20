@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:vitrine237/models/category.dart';
+import 'package:vitrine237/models/city.dart';
 import 'package:vitrine237/models/company.dart';
 import 'package:vitrine237/models/post.dart';
 import 'package:vitrine237/models/state.dart';
@@ -15,6 +16,12 @@ class StatesProvider {
         .map<State>((state) => State(
             name: state['name'],
             code: state['code'],
+            cities: state['cities']
+                .map<City>((city) => City(
+                    name: city['name'],
+                    slug: city["slug"],
+                    companiesNumber: city['companies_number'].toString()))
+                .toList(),
             companyNumber: state["companies_number"]))
         .toList();
   }
@@ -30,6 +37,8 @@ class StatesProvider {
             poster: company['poster'],
             backdrop: company['backdrop'],
             phone: company['phone'],
+            city: City(
+                name: company['city']['name'], slug: company['city']['slug']),
             phone2: company['phone2'],
             email: company['email'],
             website: company['website'],

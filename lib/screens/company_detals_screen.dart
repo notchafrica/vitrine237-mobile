@@ -31,6 +31,73 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
         slivers: [
           SliverAppBar(
             expandedHeight: 300,
+            bottom: PreferredSize(
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  children: [
+                    Container(
+                        width: 80,
+                        height: 80,
+                        margin: EdgeInsets.only(bottom: 6),
+                        child: CachedNetworkImage(
+                          fit: BoxFit.cover,
+                          imageUrl: widget.company.poster != null
+                              ? widget.company.poster
+                              : "https://vitrine237.cm/assets/favicon-96x96.png",
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.red.withOpacity(.3),
+                          borderRadius: BorderRadius.circular(5),
+                          //image: NetworkImage,
+                        )),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          FontAwesomeIcons.box,
+                          color: Colors.white,
+                          size: 14,
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          widget.company.subSector.sector.name,
+                          style: TextStyle(fontSize: 14, color: Colors.white),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: Text(
+                        widget.company.name,
+                        textAlign: TextAlign.center,
+                        //overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 24, color: Colors.white),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: 6),
+                      child: Text(
+                        widget.company.subSector.name,
+                        style: TextStyle(fontSize: 10, color: Colors.white),
+                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: BorderRadius.circular(5)),
+                    )
+                  ],
+                ),
+              ),
+              preferredSize: Size(double.infinity, 300),
+            ),
             flexibleSpace: AnimatedSwitcher(
               duration: Duration(milliseconds: 600),
               child: Container(
@@ -46,71 +113,8 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Container(
-                              width: 80,
-                              height: 80,
-                              margin: EdgeInsets.only(bottom: 6),
-                              child: CachedNetworkImage(
-                                fit: BoxFit.cover,
-                                imageUrl: widget.company.poster != null
-                                    ? widget.company.poster
-                                    : "https://vitrine237.cm/assets/favicon-96x96.png",
-                                placeholder: (context, url) =>
-                                    CircularProgressIndicator(),
-                                errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.red.withOpacity(.3),
-                                borderRadius: BorderRadius.circular(5),
-                                //image: NetworkImage,
-                              )),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                FontAwesomeIcons.box,
-                                color: Colors.white,
-                                size: 14,
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                widget.company.subSector.sector.name,
-                                style: TextStyle(
-                                    fontSize: 14, color: Colors.white),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            child: Text(
-                              widget.company.name,
-                              textAlign: TextAlign.center,
-                              //overflow: TextOverflow.ellipsis,
-                              style:
-                                  TextStyle(fontSize: 24, color: Colors.white),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.symmetric(vertical: 6),
-                            child: Text(
-                              widget.company.subSector.name,
-                              style:
-                                  TextStyle(fontSize: 10, color: Colors.white),
-                            ),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 2),
-                            decoration: BoxDecoration(
-                                color: Theme.of(context).primaryColor,
-                                borderRadius: BorderRadius.circular(5)),
-                          )
-                        ],
-                      ),
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: []),
                     )),
               ),
             ),
