@@ -102,9 +102,8 @@ class CompanyProvider {
   static Future<List<Company>> latest() async {
     var r = await API.get('/companies/latest');
     var rParsed = jsonDecode(r.body);
-    return rParsed['data']
+    return rParsed
         .map<Company>((company) => Company(
-            id: company['id'],
             name: company['name'],
             slug: company['slug'],
             about: company['about'],
@@ -129,16 +128,20 @@ class CompanyProvider {
                 : company['sponsorships']
                     .map<Company>((partner) => Company(name: partner()))
                     .toList(),
-            subSector: company['sub_sector'],
+            subSector: SubSector(
+                name: company['sub_sector']['name'],
+                slug: company['sub_sector']['slug'],
+                sector: Category(
+                    name: company['sub_sector']['sector']['name'],
+                    slug: company['sub_sector']['sector']['slug'])),
             posts: company['posts'] == null
                 ? []
                 : company['posts']
                     .map<Post>((product) => Post(
-                          title: product['title'],
-                          id: product['id'],
-                          slug: product['slug'],
-                          poster: product['poster'],
-                        ))
+                        title: product['title'],
+                        slug: product['slug'],
+                        poster: product['poster'],
+                        content: product['content']))
                     .toList()))
         .toList();
   }
