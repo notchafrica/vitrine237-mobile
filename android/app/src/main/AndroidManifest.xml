@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.notchafrica.vitrine237">
    <application
-        android:label="vitrine237"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Vitrine237"
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -37,5 +37,6 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+            <uses-permission android:name="android.permission.INTERNET" />
     </application>
 </manifest>

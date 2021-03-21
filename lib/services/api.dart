@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'config.dart';
 
@@ -37,29 +36,9 @@ class API {
   }
 
   static __setHeaders() async {
-    var token;
-
-    await getAccessToken().then((r) {
-      token = r;
-    });
-
-    if (token != null) {
-      return {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token'
-      };
-    } else {
-      return {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      };
-    }
-  }
-
-  static getAccessToken() async {
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-
-    return localStorage.getString('access_token');
+    return {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
   }
 }
