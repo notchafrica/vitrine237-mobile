@@ -62,7 +62,8 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                               children: [
                                 Text(
                                   widget.category.subSectors[i].name,
-                                  style: TextStyle(color: Colors.red),
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor),
                                 ),
                                 Text(
                                   widget.category.subSectors[i].companiesNumber
@@ -134,7 +135,7 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                 errorWidget: (context, url, error) => Icon(Icons.error),
               ),
               decoration: BoxDecoration(
-                color: Colors.red.withOpacity(.3),
+                color: Theme.of(context).primaryColor.withOpacity(.3),
                 borderRadius: BorderRadius.circular(5),
                 //image: NetworkImage,
               )),

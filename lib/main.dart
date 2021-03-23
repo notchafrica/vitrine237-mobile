@@ -31,8 +31,12 @@ class MyApp extends StatelessWidget {
           // Notice that the counter didn't reset back to zero; the application
           // is not restarted.
           primarySwatch: Colors.red,
+          primaryColor: Color(0xffc1272d),
           visualDensity: VisualDensity.adaptivePlatformDensity,
-          appBarTheme: AppBarTheme(elevation: 0, centerTitle: true)),
+          appBarTheme: AppBarTheme(
+              elevation: 0,
+              centerTitle: true,
+              backgroundColor: Color(0xffc1272d))),
       home: App(),
     );
   }
@@ -54,23 +58,26 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Vitrine237'),
-          /* actions: [
-            IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                showSearch(context: context, delegate: SearchScreen());
-              },
-            )
-          ], */
-        ),
-        body: HomeScreen());
+      appBar: AppBar(
+        title: Text('Vitrine237'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              showSearch(context: context, delegate: SearchScreen());
+            },
+          )
+        ],
+      ),
+      body: HomeScreen(),
+    );
   }
 }
 
 class SearchScreen extends SearchDelegate {
   SearchStore _searchStore = SearchStore();
+  @override
+  String get searchFieldLabel => 'Recherchez par nom ou par ville';
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -95,9 +102,6 @@ class SearchScreen extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    if (query.length < 2) {
-      return Container();
-    }
     return Observer(builder: (_) {
       switch (_searchStore.results.status) {
         case FutureStatus.pending:
@@ -106,7 +110,6 @@ class SearchScreen extends SearchDelegate {
           );
           break;
         case FutureStatus.fulfilled:
-          print("full");
           return ListView.builder(
             itemBuilder: (context, i) {
               return ListTile(
@@ -157,7 +160,64 @@ class SearchScreen extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    // TODO: implement buildSuggestions
+    if (query.length >= 2) {
+      _searchStore.getSearch(query);
+      return Observer(builder: (_) {
+        switch (_searchStore.results.status) {
+          case FutureStatus.pending:
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+            break;
+          case FutureStatus.fulfilled:
+            return ListView.builder(
+              itemBuilder: (context, i) {
+                return ListTile(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CompanyDetailsScreen(
+                                  company:
+                                      _searchStore.results.result.companies[i],
+                                ))),
+                    title: Text(
+                      _searchStore.results.result.companies[i].name,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    leading: Container(
+                        width: 60,
+                        height: 60,
+                        child: CachedNetworkImage(
+                          fit: BoxFit.cover,
+                          imageUrl: _searchStore
+                                      .results.result.companies[i].poster !=
+                                  null
+                              ? _searchStore.results.result.companies[i].poster
+                              : "https://vitrine237.cm/assets/favicon-96x96.png",
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.red.withOpacity(.3),
+                          borderRadius: BorderRadius.circular(5),
+                          //image: NetworkImage,
+                        )),
+                    subtitle: Text(
+                      _searchStore.results.result.companies[i].subSector.name,
+                      overflow: TextOverflow.ellipsis,
+                    ));
+              },
+              itemCount: _searchStore.results.result.companies.length,
+            );
+
+            break;
+          default:
+            return SizedBox();
+        }
+      });
+    }
     return Container();
   }
 }

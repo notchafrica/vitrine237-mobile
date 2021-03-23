@@ -235,7 +235,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 errorWidget: (context, url, error) => Icon(Icons.error),
               ),
               decoration: BoxDecoration(
-                color: Colors.red.withOpacity(.3),
+                color: Theme.of(context).primaryColor.withOpacity(.3),
                 borderRadius: BorderRadius.circular(5),
                 //image: NetworkImage,
               )),
