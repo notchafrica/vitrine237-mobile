@@ -9,8 +9,8 @@ import 'package:vitrine237/services/api.dart';
 import 'package:vitrine237/stores/search_store.dart';
 
 class SearchProvider {
-  static Future<SearchResult> search(code) async {
-    var r = await API.get('/search?q=' + code);
+  static Future<SearchResult> search({String code, String city}) async {
+    var r = await API.get('/search?q=' + code+'&city='+city);
     var rParsed = jsonDecode(r.body);
 
     r = SearchResult(

@@ -27,11 +27,11 @@ mixin _$SearchStore on _SearchStore, Store {
   final _$_SearchStoreActionController = ActionController(name: '_SearchStore');
 
   @override
-  Future<dynamic> getSearch(dynamic q) {
+  Future<dynamic> getSearch({String q, String city}) {
     final _$actionInfo = _$_SearchStoreActionController.startAction(
         name: '_SearchStore.getSearch');
     try {
-      return super.getSearch(q);
+      return super.getSearch(q: q, city: city);
     } finally {
       _$_SearchStoreActionController.endAction(_$actionInfo);
     }

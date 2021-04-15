@@ -12,8 +12,9 @@ abstract class _SearchStore with Store {
   ObservableFuture<SearchResult> results;
 
   @action
-  Future getSearch(q) => results = ObservableFuture(
-      SearchProvider.search(q).then((SearchResult result) => result));
+  Future getSearch({String q, String city}) =>
+      results = ObservableFuture(SearchProvider.search(code: q, city: city)
+          .then((SearchResult result) => result));
 }
 
 class SearchResult {

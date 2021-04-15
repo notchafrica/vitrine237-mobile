@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:vitrine237/models/company.dart';
+import 'package:vitrine237/screens/city_details.dart';
 import 'package:vitrine237/screens/company_detals_screen.dart';
 import 'package:vitrine237/stores/states/states_store.dart';
 
@@ -19,7 +20,6 @@ class _StateDetailsScreenState extends State<StateDetailsScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _statesStore.getCompanies(widget.state);
   }
@@ -85,13 +85,12 @@ class _StateDetailsScreenState extends State<StateDetailsScreen> {
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, i) {
                           return InkWell(
-                            /* onTap: () => Navigator.push(
+                            onTap: () => Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        SubsectorDetailsScreen(
-                                            subsector: widget
-                                                .category.subSectors[i]))), */
+                                    builder: (context) => CityDetailsScreen(
+                                          city: widget.state.cities[i],
+                                        ))),
                             child: Container(
                               margin: EdgeInsets.only(right: 18),
                               padding: EdgeInsets.symmetric(
@@ -135,11 +134,14 @@ class _StateDetailsScreenState extends State<StateDetailsScreen> {
                 );
                 break;
               case FutureStatus.fulfilled:
-                return Container(
+                return ConstrainedBox(
+                  constraints: BoxConstraints(
+                      minHeight: MediaQuery.of(context).size.height - 250,
+                      maxHeight: MediaQuery.of(context).size.height * 2.45),
                   child: Column(
                     children: _companies(_statesStore.companies.result),
                   ),
-                  height: MediaQuery.of(context).size.height - 250,
+                  //height: MediaQuery.of(context).size.height - 250,
                 );
                 break;
               default:

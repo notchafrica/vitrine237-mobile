@@ -161,7 +161,7 @@ class SearchScreen extends SearchDelegate {
   @override
   Widget buildSuggestions(BuildContext context) {
     if (query.length >= 2) {
-      _searchStore.getSearch(query);
+      _searchStore.getSearch(q: query);
       return Observer(builder: (_) {
         switch (_searchStore.results.status) {
           case FutureStatus.pending:
