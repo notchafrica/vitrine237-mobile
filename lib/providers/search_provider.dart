@@ -22,28 +22,11 @@ class SearchProvider {
     });
 
     return list;
-
-    /* return rParsed
-        .map<String, String>(
-            (city) => {'name': city['name'], 'slug': city['slug']})
-        .toList(); */
   }
-
-  /* static Future<List<Map<String, String>>> getSuggestions(String query) async {
-    await Future.delayed(Duration(seconds: 1));
-
-    return List.generate(10, (index) {
-      return {
-        'name': query + index.toString(),
-        'price': Random().nextInt(100).toString()
-      };
-    });
-  } */
 
   static Future<List<Company>> search({String code, String city}) async {
     var r = await API.get('/search?q=' + code + '&city=' + city);
 
-    print(r.body);
     var rParsed = jsonDecode(r.body);
 
     return rParsed['companies']

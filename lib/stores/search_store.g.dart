@@ -94,6 +94,28 @@ mixin _$SearchStore on _SearchStore, Store {
   }
 
   @override
+  dynamic setQuery(dynamic v) {
+    final _$actionInfo = _$_SearchStoreActionController.startAction(
+        name: '_SearchStore.setQuery');
+    try {
+      return super.setQuery(v);
+    } finally {
+      _$_SearchStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic getQuery() {
+    final _$actionInfo = _$_SearchStoreActionController.startAction(
+        name: '_SearchStore.getQuery');
+    try {
+      return super.getQuery();
+    } finally {
+      _$_SearchStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic setCityNull(dynamic v) {
     final _$actionInfo = _$_SearchStoreActionController.startAction(
         name: '_SearchStore.setCityNull');

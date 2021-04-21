@@ -43,10 +43,12 @@ class _SearchScreenState extends State<SearchScreen> {
                         width: MediaQuery.of(context).size.width - 56,
                         child: RoundedInputField(
                           hintText: "Que recherchez vous?",
+
                           type: TextInputType.emailAddress,
                           //icon: Ionicons.ios_mail,
                           onChanged: (value) async {
-                            _searchStore.getSearch(value);
+                            _searchStore.setQuery(value);
+                            _searchStore.search(value);
                           },
                         ),
                       ),
@@ -85,6 +87,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               (Map<String, String> suggestion) {
                             _searchStore.setCity(suggestion['slug']);
                             _typeAheadController.text = suggestion["name"];
+                            _searchStore.search(_searchStore.q);
                           },
                           validator: (value) {
                             if (value.isEmpty) {
@@ -93,7 +96,10 @@ class _SearchScreenState extends State<SearchScreen> {
 
                             return null;
                           },
-                          onSaved: (value) => _searchStore.setCity,
+                          onSaved: (value) {
+                            _searchStore.setCity(value);
+                            _searchStore.search(_searchStore.getQuery());
+                          },
                         ),
                       ),
                     ),
@@ -107,16 +113,23 @@ class _SearchScreenState extends State<SearchScreen> {
               child: Container(
                   height: MediaQuery.of(context).size.height - 120,
                   child: Observer(builder: (_) {
-                    print(_searchStore.companies.status);
-
-                    return Text('sduiuisd');
+                    if (_searchStore.companies == null) {
+                      return Center(
+                          child: Text("Entrez une expression à chercher"));
+                    }
                     switch (_searchStore.companies.status) {
                       case FutureStatus.pending:
-                        return Center(
-                          child: LinearProgressIndicator(),
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [LinearProgressIndicator()],
                         );
                         break;
                       case FutureStatus.fulfilled:
+                        if (_searchStore.companies.result.length <= 0) {
+                          return Center(
+                              child: Text(
+                                  "Aucun élement ne correspond à votre recherche"));
+                        }
                         return ListView.builder(
                           itemBuilder: (context, i) {
                             return ListTile(
