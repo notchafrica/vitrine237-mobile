@@ -4,7 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:vitrine237/models/category.dart';
 import 'package:vitrine237/models/company.dart';
-import 'package:vitrine237/screens/company_detals_screen.dart';
+import 'package:vitrine237/screens/company_details_screen.dart';
 import 'package:vitrine237/screens/subsector_details_screen.dart';
 import 'package:vitrine237/stores/gategories/categories_store.dart';
 

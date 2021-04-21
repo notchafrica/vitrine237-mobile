@@ -10,7 +10,7 @@ import 'package:vitrine237/stores/companies/company_store.dart';
 import 'package:vitrine237/stores/gategories/categories_store.dart';
 import 'package:vitrine237/stores/states/states_store.dart';
 
-import 'company_detals_screen.dart';
+import 'company_details_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

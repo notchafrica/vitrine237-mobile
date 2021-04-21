@@ -1,12 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mobx/mobx.dart';
-import 'package:vitrine237/screens/company_detals_screen.dart';
 import 'package:vitrine237/screens/home_screen.dart';
-import 'package:vitrine237/stores/search_store.dart';
-
-import 'services/screen_manager.dart';
+import 'package:vitrine237/screens/search_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -63,9 +57,8 @@ class _AppState extends State<App> {
         actions: [
           IconButton(
             icon: Icon(Icons.search),
-            onPressed: () {
-              showSearch(context: context, delegate: SearchScreen());
-            },
+            onPressed: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => SearchScreen())),
           )
         ],
       ),
@@ -73,7 +66,7 @@ class _AppState extends State<App> {
     );
   }
 }
-
+/* 
 class SearchScreen extends SearchDelegate {
   SearchStore _searchStore = SearchStore();
   @override
@@ -221,3 +214,4 @@ class SearchScreen extends SearchDelegate {
     return Container();
   }
 }
+ */

@@ -4,7 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:vitrine237/models/company.dart';
 import 'package:vitrine237/screens/city_details.dart';
-import 'package:vitrine237/screens/company_detals_screen.dart';
+import 'package:vitrine237/screens/company_details_screen.dart';
 import 'package:vitrine237/stores/states/states_store.dart';
 
 class StateDetailsScreen extends StatefulWidget {
@@ -137,7 +137,7 @@ class _StateDetailsScreenState extends State<StateDetailsScreen> {
                 return ConstrainedBox(
                   constraints: BoxConstraints(
                       minHeight: MediaQuery.of(context).size.height - 250,
-                      maxHeight: MediaQuery.of(context).size.height * 2.45),
+                      maxHeight: MediaQuery.of(context).size.height * 2.65),
                   child: Column(
                     children: _companies(_statesStore.companies.result),
                   ),

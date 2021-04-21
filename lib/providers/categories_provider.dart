@@ -58,35 +58,34 @@ class CategoriesProvider {
                 ? []
                 : company['sponsorships']
                     .map<Company>((partner) => Company(
-                              name: partner['name'],
-                              slug: partner['slug'],
-                              about: partner['about'],
-                              poster: partner['poster'],
-                              backdrop: partner['backdrop'],
-                              phone: partner['phone'],
-                              city: City(
-                                  name: partner['city']['name'],
-                                  slug: partner['city']['slug']),
-                              phone2: partner['phone2'],
-                              email: partner['email'],
-                              website: partner['website'],
-                              instagramUrl: partner['instagram_url'],
-                              facebookUrl: partner['facebook_url'],
-                              landmark: partner['landmark'],
-                              lat: partner['lat'],
-                              lng: partner['lng'],
-                              zipCode: partner['zip_code'],
-                              town: partner['town'],
-                              twitterUrl: partner['twitter_url'],
-                              subSector: SubSector(
-                                  name: partner['sub_sector']['name'],
-                                  slug: partner['sub_sector']['slug'],
-                                  sector: Category(
-                                      name: partner['sub_sector']['sector']
-                                          ['name'],
-                                      slug: partner['sub_sector']['sector']
-                                          ['slug'])),
-                            ))
+                          name: partner['name'],
+                          slug: partner['slug'],
+                          about: partner['about'],
+                          poster: partner['poster'],
+                          backdrop: partner['backdrop'],
+                          phone: partner['phone'],
+                          city: City(
+                              name: partner['city']['name'],
+                              slug: partner['city']['slug']),
+                          phone2: partner['phone2'],
+                          email: partner['email'],
+                          website: partner['website'],
+                          instagramUrl: partner['instagram_url'],
+                          facebookUrl: partner['facebook_url'],
+                          landmark: partner['landmark'],
+                          lat: partner['lat'],
+                          lng: partner['lng'],
+                          zipCode: partner['zip_code'],
+                          town: partner['town'],
+                          twitterUrl: partner['twitter_url'],
+                          subSector: SubSector(
+                              name: partner['sub_sector']['name'],
+                              slug: partner['sub_sector']['slug'],
+                              sector: Category(
+                                  name: partner['sub_sector']['sector']['name'],
+                                  slug: partner['sub_sector']['sector']
+                                      ['slug'])),
+                        ))
                     .toList(),
             subSector: SubSector(
                 name: company['sub_sector']['name'],
@@ -108,6 +107,9 @@ class CategoriesProvider {
 
   static Future<List<Company>> companiesBySector(slug) async {
     var r = await API.get('/sub-sectors/' + slug);
+    if (r.statusCode != 200) {
+      return [];
+    }
     var rParsed = jsonDecode(r.body);
 
     return rParsed['companies']
@@ -135,35 +137,34 @@ class CategoriesProvider {
                 ? []
                 : company['sponsorships']
                     .map<Company>((partner) => Company(
-                              name: partner['name'],
-                              slug: partner['slug'],
-                              about: partner['about'],
-                              poster: partner['poster'],
-                              backdrop: partner['backdrop'],
-                              phone: partner['phone'],
-                              city: City(
-                                  name: partner['city']['name'],
-                                  slug: partner['city']['slug']),
-                              phone2: partner['phone2'],
-                              email: partner['email'],
-                              website: partner['website'],
-                              instagramUrl: partner['instagram_url'],
-                              facebookUrl: partner['facebook_url'],
-                              landmark: partner['landmark'],
-                              lat: partner['lat'],
-                              lng: partner['lng'],
-                              zipCode: partner['zip_code'],
-                              town: partner['town'],
-                              twitterUrl: partner['twitter_url'],
-                              subSector: SubSector(
-                                  name: partner['sub_sector']['name'],
-                                  slug: partner['sub_sector']['slug'],
-                                  sector: Category(
-                                      name: partner['sub_sector']['sector']
-                                          ['name'],
-                                      slug: partner['sub_sector']['sector']
-                                          ['slug'])),
-                            ))
+                          name: partner['name'],
+                          slug: partner['slug'],
+                          about: partner['about'],
+                          poster: partner['poster'],
+                          backdrop: partner['backdrop'],
+                          phone: partner['phone'],
+                          city: City(
+                              name: partner['city']['name'],
+                              slug: partner['city']['slug']),
+                          phone2: partner['phone2'],
+                          email: partner['email'],
+                          website: partner['website'],
+                          instagramUrl: partner['instagram_url'],
+                          facebookUrl: partner['facebook_url'],
+                          landmark: partner['landmark'],
+                          lat: partner['lat'],
+                          lng: partner['lng'],
+                          zipCode: partner['zip_code'],
+                          town: partner['town'],
+                          twitterUrl: partner['twitter_url'],
+                          subSector: SubSector(
+                              name: partner['sub_sector']['name'],
+                              slug: partner['sub_sector']['slug'],
+                              sector: Category(
+                                  name: partner['sub_sector']['sector']['name'],
+                                  slug: partner['sub_sector']['sector']
+                                      ['slug'])),
+                        ))
                     .toList(),
             subSector: SubSector(
                 name: company['sub_sector']['name'],

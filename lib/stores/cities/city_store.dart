@@ -12,22 +12,30 @@ abstract class _CityStore with Store {
   ObservableFuture<List<Company>> companies;
 
   @observable
+  ObservableFuture<List<City>> cities;
+
+  @observable
   int page = 1;
+  @observable
   int totalPage = 0;
-  List<Company> totalCompanies = [];
+  @observable
+  bool loading = false;
 
   @action
   Future getCompanies(City city) => companies = ObservableFuture(
           CompanyProvider.companiesByCity(city: city.slug, page: 1)
-              .then((CompaniesResult result) {
-        totalCompanies = result.companies;
-        page = result.page;
-        totalPage = result.totalPage;
-        return result.companies;
+              .then((List<Company> result) {
+        return result;
       }));
 
-  @action
-  Future getMoreCompanies(city, page) {}
+  /* @action
+  Future find(q) => cities =
+          ObservableFuture(SearchProvider.findCity(q).then((List<City> result) {
+        return result;
+      })); */
+
+  @computed
+  bool get alreadyLoaded => page == totalPage;
 }
 
 class CompaniesResult {
