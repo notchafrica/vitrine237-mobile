@@ -2,14 +2,11 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:mobx/mobx.dart';
-import 'package:vitrine237/models/city.dart';
 import 'package:vitrine237/providers/search_provider.dart';
 import 'package:vitrine237/screens/company_details_screen.dart';
-import 'package:vitrine237/stores/cities/city_store.dart';
 import 'package:vitrine237/stores/search_store.dart';
 
 class SearchScreen extends StatefulWidget {
