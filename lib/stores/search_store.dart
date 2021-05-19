@@ -30,7 +30,7 @@ abstract class _SearchStore with Store {
     if (query.length > 0) {
       if (query.length > 1) {
         return companies = ObservableFuture(SearchProvider.search(
-                code: query[0] != null ? query[0] : q,
+                query[0] != null ? query[0] : q,
                 city: query[1] != null ? query[1] : null)
             .then((List<Company> result) {
           loading = false;
@@ -38,15 +38,16 @@ abstract class _SearchStore with Store {
         }));
       }
 
+      print(q);
       return companies = ObservableFuture(
-          SearchProvider.search(code: q).then((List<Company> result) {
+          SearchProvider.search(q).then((List<Company> result) {
         loading = false;
         return result;
       }));
     }
 
-    return companies = ObservableFuture(
-        SearchProvider.search(code: q).then((List<Company> result) {
+    return companies =
+        ObservableFuture(SearchProvider.search(q).then((List<Company> result) {
       loading = false;
       return result;
     }));
