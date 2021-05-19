@@ -4,7 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:vitrine237/models/sub_sector.dart';
 import 'package:vitrine237/screens/company_details_screen.dart';
-import 'package:vitrine237/stores/gategories/categories_store.dart';
+import 'package:vitrine237/stores/categories/categories_store.dart';
 
 class SubsectorDetailsScreen extends StatefulWidget {
   final SubSector subsector;

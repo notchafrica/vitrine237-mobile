@@ -1,8 +1,10 @@
 import 'package:mobx/mobx.dart';
 import 'package:vitrine237/models/category.dart';
 import 'package:vitrine237/models/company.dart';
+import 'package:vitrine237/models/company_response.dart';
 import 'package:vitrine237/models/sub_sector.dart';
 import 'package:vitrine237/providers/categories_provider.dart';
+//import 'package:vitrine237/stores/cities/city_store.dart';
 
 part 'categories_store.g.dart';
 
@@ -13,7 +15,7 @@ abstract class _CategoriesStore with Store {
   ObservableFuture<List<Category>> categories;
 
   @observable
-  ObservableFuture<List<Company>> companies;
+  ObservableFuture<CompanyResponse> companies;
 
   @observable
   ObservableFuture<List<Company>> subsectorCompanies;
@@ -25,7 +27,7 @@ abstract class _CategoriesStore with Store {
   @action
   Future getCompanies(Category state) =>
       companies = ObservableFuture(CategoriesProvider.companies(state.slug)
-          .then((List<Company> result) => result));
+          .then((CompanyResponse result) => result));
 
   @action
   Future getCompaniesBySector(SubSector state) => subsectorCompanies =

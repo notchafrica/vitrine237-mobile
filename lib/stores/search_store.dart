@@ -21,12 +21,24 @@ abstract class _SearchStore with Store {
   bool loading = null;
 
   @action
-  Future getSearch(q) =>
-      companies = ObservableFuture(SearchProvider.search(code: q, city: city)
-          .then((List<Company> result) {
+  Future getSearch(q) => companies = ObservableFuture(
+          SearchProvider.search(code: q).then((List<Company> result) {
         loading = false;
         return result;
       }));
+
+  @action
+  Future dynamicSearch(q) {
+    var query = q.toString().split(",");
+
+    return companies = ObservableFuture(SearchProvider.search(
+            code: query[0] != null? query[0]: q, city: query[1] != null ? query[1] : null)
+        .then((List<Company> result) {
+      loading = false;
+      return result;
+    }));
+  }
+
   @action
   setCity(v) {
     city = v;

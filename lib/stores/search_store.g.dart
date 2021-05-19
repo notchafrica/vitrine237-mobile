@@ -83,6 +83,17 @@ mixin _$SearchStore on _SearchStore, Store {
   }
 
   @override
+  Future<dynamic> dynamicSearch(dynamic q) {
+    final _$actionInfo = _$_SearchStoreActionController.startAction(
+        name: '_SearchStore.dynamicSearch');
+    try {
+      return super.dynamicSearch(q);
+    } finally {
+      _$_SearchStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic setCity(dynamic v) {
     final _$actionInfo = _$_SearchStoreActionController.startAction(
         name: '_SearchStore.setCity');

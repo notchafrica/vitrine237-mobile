@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:vitrine237/models/category.dart';
 import 'package:vitrine237/models/city.dart';
 import 'package:vitrine237/models/company.dart';
+import 'package:vitrine237/models/company_response.dart';
 import 'package:vitrine237/models/post.dart';
 import 'package:vitrine237/models/sub_sector.dart';
 import 'package:vitrine237/services/api.dart';
@@ -30,9 +31,11 @@ class CategoriesProvider {
         .toList();
   }
 
-  static Future<List<Company>> companies(slug) async {
-    var r = await API.get('/categories/' + slug + '/companies');
+  static Future<CompanyResponse> companies(slug) async {
+    var r = await API.get('/categories/' + slug);
     var rParsed = jsonDecode(r.body);
+
+    return CompanyResponse(total_page: rParsed['']);
     return rParsed
         .map<Company>((company) => Company(
             name: company['name'],

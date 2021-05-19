@@ -1,8 +1,14 @@
+import 'package:bloc/bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
+import 'package:vitrine237/screens/company_details_screen.dart';
 import 'package:vitrine237/screens/home_screen.dart';
-import 'package:vitrine237/screens/search_screen.dart';
+import 'package:vitrine237/stores/search_store.dart';
 
 void main() {
+  Bloc.observer = SimpleBlocObserver();
   runApp(MyApp());
 }
 
@@ -36,6 +42,20 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class SimpleBlocObserver extends BlocObserver {
+  @override
+  void onTransition(Bloc bloc, Transition transition) {
+    super.onTransition(bloc, transition);
+    print(transition);
+  }
+
+  @override
+  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
+    print(error);
+    super.onError(bloc, error, stackTrace);
+  }
+}
+
 class App extends StatefulWidget {
   @override
   _AppState createState() => _AppState();
@@ -57,8 +77,9 @@ class _AppState extends State<App> {
         actions: [
           IconButton(
             icon: Icon(Icons.search),
-            onPressed: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => SearchScreen())),
+            onPressed: () {
+              showSearch(context: context, delegate: SearchScreen());
+            },
           )
         ],
       ),
@@ -66,11 +87,11 @@ class _AppState extends State<App> {
     );
   }
 }
-/* 
+
 class SearchScreen extends SearchDelegate {
   SearchStore _searchStore = SearchStore();
   @override
-  String get searchFieldLabel => 'Recherchez par nom ou par ville';
+  String get searchFieldLabel => "Activité, ville";
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -96,7 +117,7 @@ class SearchScreen extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     return Observer(builder: (_) {
-      switch (_searchStore.results.status) {
+      switch (_searchStore.companies.status) {
         case FutureStatus.pending:
           return Center(
             child: LinearProgressIndicator(),
@@ -110,11 +131,10 @@ class SearchScreen extends SearchDelegate {
                       context,
                       MaterialPageRoute(
                           builder: (context) => CompanyDetailsScreen(
-                                company:
-                                    _searchStore.results.result.companies[i],
+                                company: _searchStore.companies.result[i],
                               ))),
                   title: Text(
-                    _searchStore.results.result.companies[i].name,
+                    _searchStore.companies.result[i].name,
                     overflow: TextOverflow.ellipsis,
                   ),
                   leading: Container(
@@ -122,10 +142,9 @@ class SearchScreen extends SearchDelegate {
                       height: 60,
                       child: CachedNetworkImage(
                         fit: BoxFit.cover,
-                        imageUrl: _searchStore
-                                    .results.result.companies[i].poster !=
+                        imageUrl: _searchStore.companies.result[i].poster !=
                                 null
-                            ? _searchStore.results.result.companies[i].poster
+                            ? _searchStore.companies.result[i].poster
                             : "https://vitrine237.cm/assets/favicon-96x96.png",
                         placeholder: (context, url) =>
                             CircularProgressIndicator(),
@@ -137,11 +156,11 @@ class SearchScreen extends SearchDelegate {
                         //image: NetworkImage,
                       )),
                   subtitle: Text(
-                    _searchStore.results.result.companies[i].subSector.name,
+                    _searchStore.companies.result[i].subSector.name,
                     overflow: TextOverflow.ellipsis,
                   ));
             },
-            itemCount: _searchStore.results.result.companies.length,
+            itemCount: _searchStore.companies.result.companies.length,
           );
 
           break;
@@ -154,9 +173,9 @@ class SearchScreen extends SearchDelegate {
   @override
   Widget buildSuggestions(BuildContext context) {
     if (query.length >= 2) {
-      _searchStore.getSearch(q: query);
+      _searchStore.dynamicSearch(query);
       return Observer(builder: (_) {
-        switch (_searchStore.results.status) {
+        switch (_searchStore.companies.status) {
           case FutureStatus.pending:
             return Center(
               child: CircularProgressIndicator(),
@@ -170,11 +189,10 @@ class SearchScreen extends SearchDelegate {
                         context,
                         MaterialPageRoute(
                             builder: (context) => CompanyDetailsScreen(
-                                  company:
-                                      _searchStore.results.result.companies[i],
+                                  company: _searchStore.companies.result[i],
                                 ))),
                     title: Text(
-                      _searchStore.results.result.companies[i].name,
+                      _searchStore.companies.result[i].name,
                       overflow: TextOverflow.ellipsis,
                     ),
                     leading: Container(
@@ -182,10 +200,9 @@ class SearchScreen extends SearchDelegate {
                         height: 60,
                         child: CachedNetworkImage(
                           fit: BoxFit.cover,
-                          imageUrl: _searchStore
-                                      .results.result.companies[i].poster !=
+                          imageUrl: _searchStore.companies.result[i].poster !=
                                   null
-                              ? _searchStore.results.result.companies[i].poster
+                              ? _searchStore.companies.result[i].poster
                               : "https://vitrine237.cm/assets/favicon-96x96.png",
                           placeholder: (context, url) =>
                               CircularProgressIndicator(),
@@ -198,11 +215,11 @@ class SearchScreen extends SearchDelegate {
                           //image: NetworkImage,
                         )),
                     subtitle: Text(
-                      _searchStore.results.result.companies[i].subSector.name,
+                      _searchStore.companies.result[i].subSector.name,
                       overflow: TextOverflow.ellipsis,
                     ));
               },
-              itemCount: _searchStore.results.result.companies.length,
+              itemCount: _searchStore.companies.result.companies.length,
             );
 
             break;
@@ -214,4 +231,3 @@ class SearchScreen extends SearchDelegate {
     return Container();
   }
 }
- */

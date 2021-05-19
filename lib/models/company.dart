@@ -4,30 +4,30 @@ import 'city.dart';
 import 'post.dart';
 
 class Company {
-  int id;
-  String name;
-  String slug;
-  String about;
-  String activeSubscrption;
-  String backdrop;
-  City city;
-  String email;
-  String facebookUrl;
-  String instagramUrl;
-  String landmark;
-  String lat;
-  String lng;
-  String phone;
-  String phone2;
-  String poster;
+  final int id;
+  final String name;
+  final String slug;
+  final String about;
+  final String activeSubscrption;
+  final String backdrop;
+  final City city;
+  final String email;
+  final String facebookUrl;
+  final String instagramUrl;
+  final String landmark;
+  final String lat;
+  final String lng;
+  final String phone;
+  final String phone2;
+  final String poster;
   List<Post> posts = [];
-  String town;
+  final String town;
   List<Company> sponsorships = [];
-  SubSector subSector;
-  String twitterUrl;
-  String website;
-  String youtubeUrl;
-  String zipCode;
+  final SubSector subSector;
+  final String twitterUrl;
+  final String website;
+  final String youtubeUrl;
+  final String zipCode;
 
   Company(
       {this.id,
@@ -46,12 +46,12 @@ class Company {
       this.phone,
       this.phone2,
       this.poster,
-      this.posts,
-      this.sponsorships,
-      this.subSector,
       this.town,
+      this.subSector,
       this.twitterUrl,
       this.website,
       this.youtubeUrl,
+      this.posts,
+      this.sponsorships,
       this.zipCode});
 }

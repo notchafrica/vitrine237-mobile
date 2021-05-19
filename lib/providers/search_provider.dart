@@ -24,7 +24,7 @@ class SearchProvider {
     return list;
   }
 
-  static Future<List<Company>> search({String code, String city}) async {
+  static Future<List<Company>> search({String code, String city = null}) async {
     var r = await API.get('/search?q=' + code + '&city=' + city);
 
     var rParsed = jsonDecode(r.body);

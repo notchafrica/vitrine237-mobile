@@ -7,7 +7,7 @@ import 'package:vitrine237/models/company.dart';
 import 'package:vitrine237/screens/category_details_screen.dart';
 import 'package:vitrine237/screens/state_details_screen.dart';
 import 'package:vitrine237/stores/companies/company_store.dart';
-import 'package:vitrine237/stores/gategories/categories_store.dart';
+import 'package:vitrine237/stores/categories/categories_store.dart';
 import 'package:vitrine237/stores/states/states_store.dart';
 
 import 'company_details_screen.dart';

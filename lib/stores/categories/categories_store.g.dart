@@ -27,13 +27,13 @@ mixin _$CategoriesStore on _CategoriesStore, Store {
   final _$companiesAtom = Atom(name: '_CategoriesStore.companies');
 
   @override
-  ObservableFuture<List<Company>> get companies {
+  ObservableFuture<CompanyResponse> get companies {
     _$companiesAtom.reportRead();
     return super.companies;
   }
 
   @override
-  set companies(ObservableFuture<List<Company>> value) {
+  set companies(ObservableFuture<CompanyResponse> value) {
     _$companiesAtom.reportWrite(value, super.companies, () {
       super.companies = value;
     });

@@ -6,7 +6,7 @@ import 'package:vitrine237/models/category.dart';
 import 'package:vitrine237/models/company.dart';
 import 'package:vitrine237/screens/company_details_screen.dart';
 import 'package:vitrine237/screens/subsector_details_screen.dart';
-import 'package:vitrine237/stores/gategories/categories_store.dart';
+import 'package:vitrine237/stores/categories/categories_store.dart';
 
 class CategoryDetailsScreen extends StatefulWidget {
   final Category category;
