@@ -1,5 +1,4 @@
 import 'package:mobx/mobx.dart';
-import 'package:vitrine237/models/city.dart';
 import 'package:vitrine237/models/company.dart';
 import 'package:vitrine237/providers/search_provider.dart';
 
@@ -21,19 +20,33 @@ abstract class _SearchStore with Store {
   bool loading = null;
 
   @action
-  Future getSearch(q) => companies = ObservableFuture(
+  Future dynamicSearch(q) {
+    List<String> query = q.toString().split(",");
+
+    print(query.length);
+
+    loading = true;
+
+    if (query.length > 0) {
+      if (query.length > 1) {
+        return companies = ObservableFuture(SearchProvider.search(
+                code: query[0] != null ? query[0] : q,
+                city: query[1] != null ? query[1] : null)
+            .then((List<Company> result) {
+          loading = false;
+          return result;
+        }));
+      }
+
+      return companies = ObservableFuture(
           SearchProvider.search(code: q).then((List<Company> result) {
         loading = false;
         return result;
       }));
+    }
 
-  @action
-  Future dynamicSearch(q) {
-    var query = q.toString().split(",");
-
-    return companies = ObservableFuture(SearchProvider.search(
-            code: query[0] != null? query[0]: q, city: query[1] != null ? query[1] : null)
-        .then((List<Company> result) {
+    return companies = ObservableFuture(
+        SearchProvider.search(code: q).then((List<Company> result) {
       loading = false;
       return result;
     }));
@@ -57,12 +70,5 @@ abstract class _SearchStore with Store {
   @action
   setCityNull(v) {
     city = null;
-  }
-
-  @action
-  search(q) {
-    if (q != null) {
-      getSearch(q);
-    }
   }
 }

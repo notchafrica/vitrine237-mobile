@@ -219,7 +219,7 @@ class SearchScreen extends SearchDelegate {
                       overflow: TextOverflow.ellipsis,
                     ));
               },
-              itemCount: _searchStore.companies.result.companies.length,
+              itemCount: _searchStore.companies.result.length,
             );
 
             break;
