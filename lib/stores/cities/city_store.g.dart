@@ -20,13 +20,13 @@ mixin _$CityStore on _CityStore, Store {
   final _$companiesAtom = Atom(name: '_CityStore.companies');
 
   @override
-  ObservableFuture<List<Company>> get companies {
+  ObservableFuture<CompanyResponse> get companies {
     _$companiesAtom.reportRead();
     return super.companies;
   }
 
   @override
-  set companies(ObservableFuture<List<Company>> value) {
+  set companies(ObservableFuture<CompanyResponse> value) {
     _$companiesAtom.reportWrite(value, super.companies, () {
       super.companies = value;
     });
@@ -100,6 +100,17 @@ mixin _$CityStore on _CityStore, Store {
         name: '_CityStore.getCompanies');
     try {
       return super.getCompanies(city);
+    } finally {
+      _$_CityStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic getMoreCompanies(City city) {
+    final _$actionInfo = _$_CityStoreActionController.startAction(
+        name: '_CityStore.getMoreCompanies');
+    try {
+      return super.getMoreCompanies(city);
     } finally {
       _$_CityStoreActionController.endAction(_$actionInfo);
     }
