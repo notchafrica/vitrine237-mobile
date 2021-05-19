@@ -137,7 +137,7 @@ class _StateDetailsScreenState extends State<StateDetailsScreen> {
                 return ConstrainedBox(
                   constraints: BoxConstraints(
                       minHeight: MediaQuery.of(context).size.height - 250,
-                      maxHeight: MediaQuery.of(context).size.height * 2.65),
+                      maxHeight: MediaQuery.of(context).size.height * 4.1),
                   child: Column(
                     children: _companies(_statesStore.companies.result),
                   ),

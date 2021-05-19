@@ -27,9 +27,9 @@ class StatesProvider {
   }
 
   static Future<List<Company>> companies(code) async {
-    var r = await API.get('/states/' + code + '/companies');
+    var r = await API.get('/states/' + code);
     var rParsed = jsonDecode(r.body);
-    return rParsed
+    return rParsed['companies']['data']
         .map<Company>((company) => Company(
             name: company['name'],
             slug: company['slug'],
