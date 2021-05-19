@@ -39,19 +39,49 @@ mixin _$CategoriesStore on _CategoriesStore, Store {
     });
   }
 
+  final _$totalListAtom = Atom(name: '_CategoriesStore.totalList');
+
+  @override
+  List<Company> get totalList {
+    _$totalListAtom.reportRead();
+    return super.totalList;
+  }
+
+  @override
+  set totalList(List<Company> value) {
+    _$totalListAtom.reportWrite(value, super.totalList, () {
+      super.totalList = value;
+    });
+  }
+
   final _$subsectorCompaniesAtom =
       Atom(name: '_CategoriesStore.subsectorCompanies');
 
   @override
-  ObservableFuture<List<Company>> get subsectorCompanies {
+  ObservableFuture<CompanyResponse> get subsectorCompanies {
     _$subsectorCompaniesAtom.reportRead();
     return super.subsectorCompanies;
   }
 
   @override
-  set subsectorCompanies(ObservableFuture<List<Company>> value) {
+  set subsectorCompanies(ObservableFuture<CompanyResponse> value) {
     _$subsectorCompaniesAtom.reportWrite(value, super.subsectorCompanies, () {
       super.subsectorCompanies = value;
+    });
+  }
+
+  final _$loadingMoreAtom = Atom(name: '_CategoriesStore.loadingMore');
+
+  @override
+  bool get loadingMore {
+    _$loadingMoreAtom.reportRead();
+    return super.loadingMore;
+  }
+
+  @override
+  set loadingMore(bool value) {
+    _$loadingMoreAtom.reportWrite(value, super.loadingMore, () {
+      super.loadingMore = value;
     });
   }
 
@@ -92,11 +122,35 @@ mixin _$CategoriesStore on _CategoriesStore, Store {
   }
 
   @override
+  dynamic getMoreCompaniesBySector(SubSector state) {
+    final _$actionInfo = _$_CategoriesStoreActionController.startAction(
+        name: '_CategoriesStore.getMoreCompaniesBySector');
+    try {
+      return super.getMoreCompaniesBySector(state);
+    } finally {
+      _$_CategoriesStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  List<Company> getMoreCompanies(Category state) {
+    final _$actionInfo = _$_CategoriesStoreActionController.startAction(
+        name: '_CategoriesStore.getMoreCompanies');
+    try {
+      return super.getMoreCompanies(state);
+    } finally {
+      _$_CategoriesStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 categories: ${categories},
 companies: ${companies},
-subsectorCompanies: ${subsectorCompanies}
+totalList: ${totalList},
+subsectorCompanies: ${subsectorCompanies},
+loadingMore: ${loadingMore}
     ''';
   }
 }

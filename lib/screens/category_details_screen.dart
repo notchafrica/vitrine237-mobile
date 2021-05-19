@@ -18,10 +18,69 @@ class CategoryDetailsScreen extends StatefulWidget {
 
 class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
   CategoriesStore _categoryStore = CategoriesStore();
+  List<Widget> companies = [];
+  bool isMoreData = false;
+
+  ScrollController _scrollController =
+      ScrollController(initialScrollOffset: 0.0, keepScrollOffset: true);
   @override
   void initState() {
     super.initState();
     _categoryStore.getCompanies(widget.category);
+    _scrollController.addListener(() {
+      var isEnd = _scrollController.offset ==
+          _scrollController.position.maxScrollExtent;
+
+      if (isEnd) {
+        List<Company> moreCompanies =
+            _categoryStore.getMoreCompanies(widget.category);
+
+        if (moreCompanies.length > 0) {
+          setState(() {
+            isMoreData = true;
+            loadMoreData(moreCompanies);
+          });
+        }
+      }
+    });
+  }
+
+  loadMoreData(items) {
+    for (var company in items) {
+      setState(() {
+        companies.add(ListTile(
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CompanyDetailsScreen(
+                          company: company,
+                        ))),
+            title: Text(
+              company.name,
+              overflow: TextOverflow.ellipsis,
+            ),
+            leading: Container(
+                width: 60,
+                height: 60,
+                child: CachedNetworkImage(
+                  fit: BoxFit.cover,
+                  imageUrl: company.poster != null
+                      ? company.poster
+                      : "https://vitrine237.cm/assets/favicon-96x96.png",
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                ),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor.withOpacity(.3),
+                  borderRadius: BorderRadius.circular(5),
+                  //image: NetworkImage,
+                )),
+            subtitle: Text(
+              company.subSector.name,
+              overflow: TextOverflow.ellipsis,
+            )));
+      });
+    }
   }
 
   @override
@@ -29,6 +88,7 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(widget.category.name)),
       body: SingleChildScrollView(
+        controller: _scrollController,
         child: Padding(
           padding: const EdgeInsets.all(0),
           child: Column(
@@ -92,13 +152,30 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                     );
                     break;
                   case FutureStatus.fulfilled:
+                    /* if (isMoreData) {
+                      return Column(
+                        children: companies,
+                      );
+                    } */
                     return Column(
-                      children: _companies(_categoryStore.companies.result),
+                      children: _companies(_categoryStore.totalList),
                     );
 
                     break;
                   default:
                     return SizedBox();
+                }
+              }),
+              Column(
+                children: companies,
+              ),
+              Observer(builder: (_) {
+                if (_categoryStore.loadingMore) {
+                  return Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: LinearProgressIndicator());
+                } else {
+                  return SizedBox();
                 }
               }),
             ],
@@ -109,10 +186,9 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
   }
 
   List<Widget> _companies(List<Company> items) {
-    List<Widget> companies = [];
-
+    List<Widget> itemsInitial = [];
     for (var company in items) {
-      companies.add(ListTile(
+      itemsInitial.add(ListTile(
           onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
@@ -145,6 +221,6 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
           )));
     }
 
-    return companies;
+    return itemsInitial;
   }
 }
