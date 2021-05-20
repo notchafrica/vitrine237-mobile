@@ -1,4 +1,3 @@
-import 'package:bloc/bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -8,7 +7,6 @@ import 'package:vitrine237/screens/home_screen.dart';
 import 'package:vitrine237/stores/search_store.dart';
 
 void main() {
-  Bloc.observer = SimpleBlocObserver();
   runApp(MyApp());
 }
 
@@ -42,19 +40,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class SimpleBlocObserver extends BlocObserver {
-  @override
-  void onTransition(Bloc bloc, Transition transition) {
-    super.onTransition(bloc, transition);
-    print(transition);
-  }
-
-  @override
-  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
-    print(error);
-    super.onError(bloc, error, stackTrace);
-  }
-}
 
 class App extends StatefulWidget {
   @override
