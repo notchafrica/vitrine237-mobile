@@ -2,8 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:md2_tab_indicator/md2_tab_indicator.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:vitrine237/models/company.dart';
 
 class CompanyDetailsScreen extends StatefulWidget {
@@ -125,7 +123,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
       appBar: AppBar(
         //title: Text(widget.company.name),
         actions: [
-          IconButton(
+          /* IconButton(
               icon: Icon(Icons.mail),
               tooltip: "Envoyer un email",
               onPressed: () async {
@@ -176,7 +174,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                       } else {
                         throw 'Could not launch $url';
                       }
-                    }),
+                    }), */
         ],
       ),
       body: SingleChildScrollView(
@@ -361,10 +359,10 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
     return posts;
   }
 
-  Uri emailLauncher(email) {
+  /* Uri emailLauncher(email) {
     return Uri(
         scheme: 'mailto',
         path: email,
         queryParameters: {'subject': 'Vitrine237'});
-  }
+  } */
 }
