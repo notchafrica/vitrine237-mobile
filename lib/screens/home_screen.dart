@@ -99,8 +99,17 @@ class _HomeScreenState extends State<HomeScreen> {
             }
           }),
           ListTile(
-            title: Text("Tendances actuelles"),
-            subtitle: Text("Entreprises les plus vues du moment"),
+            title: Text(
+              "Tendances actuelles",
+              style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.bold),
+            ),
+            subtitle: Text(
+              "Entreprises les plus vues du moment",
+              style:
+                  TextStyle(color: Colors.black87, fontWeight: FontWeight.bold),
+            ),
           ),
           Observer(builder: (_) {
             switch (_companyStore.trending.status) {
@@ -120,8 +129,17 @@ class _HomeScreenState extends State<HomeScreen> {
             }
           }),
           ListTile(
-            title: Text("Régions"),
-            subtitle: Text("Trouvez les entreprise par régions"),
+            title: Text(
+              "Régions",
+              style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.bold),
+            ),
+            subtitle: Text(
+              "Trouvez les entreprise par régions",
+              style:
+                  TextStyle(color: Colors.black87, fontWeight: FontWeight.bold),
+            ),
           ),
           Observer(builder: (_) {
             switch (_statesStore.states.status) {
@@ -183,8 +201,17 @@ class _HomeScreenState extends State<HomeScreen> {
             }
           }),
           ListTile(
-            title: Text("Dernières entreprises enregistrées"),
-            subtitle: Text("Dernières entreprises enregistrées"),
+            title: Text(
+              "Dernières entreprises enregistrées",
+              style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.bold),
+            ),
+            subtitle: Text(
+              "Dernières entreprises enregistrées",
+              style:
+                  TextStyle(color: Colors.black87, fontWeight: FontWeight.bold),
+            ),
           ),
           Observer(builder: (_) {
             switch (_companyStore.latest.status) {

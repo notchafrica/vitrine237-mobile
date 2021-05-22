@@ -40,7 +40,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
 class App extends StatefulWidget {
   @override
   _AppState createState() => _AppState();
@@ -100,6 +99,46 @@ class SearchScreen extends SearchDelegate {
   }
 
   @override
+  ThemeData appBarTheme(BuildContext context) {
+    return Theme.of(context).copyWith(
+      appBarTheme: AppBarTheme(
+        elevation: 0,
+        titleTextStyle: TextStyle(color: Colors.white),
+        textTheme: TextTheme(
+          headline4: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+          ),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+          border: InputBorder.none,
+          labelStyle: TextStyle(color: Colors.white, fontSize: 12)),
+      hintColor: Colors.white,
+      primaryTextTheme: Theme.of(context).primaryTextTheme.copyWith(
+          subtitle1: TextStyle(color: Colors.white),
+          headline1: TextStyle(color: Colors.white),
+          headline2: TextStyle(color: Colors.white),
+          headline3: TextStyle(color: Colors.white),
+          headline4: TextStyle(color: Colors.white),
+          headline5: TextStyle(color: Colors.white),
+          subtitle2: TextStyle(color: Colors.white)),
+    );
+  }
+
+  @override
+  TextStyle get searchFieldStyle =>
+      TextStyle(color: Colors.white, fontSize: 12);
+
+  /* @override
+  // TODO: implement searchFieldDecorationTheme
+  InputDecorationTheme get searchFieldDecorationTheme {
+    return InputDecorationTheme(
+        labelStyle: TextStyle(color: Colors.white),
+        hintStyle: TextStyle(color: Colors.white));
+  } */
+
+  @override
   Widget buildResults(BuildContext context) {
     return Observer(builder: (_) {
       switch (_searchStore.companies.status) {
@@ -109,6 +148,13 @@ class SearchScreen extends SearchDelegate {
           );
           break;
         case FutureStatus.fulfilled:
+          if (_searchStore.companies.result.length <= 0) {
+            return Center(
+                child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text("Aucun élement ne correspond à votre recherche"),
+            ));
+          }
           return ListView.builder(
             itemBuilder: (context, i) {
               return ListTile(
@@ -149,8 +195,22 @@ class SearchScreen extends SearchDelegate {
           );
 
           break;
+        case FutureStatus.rejected:
+          return Center(
+              child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+                "Oups! nous rencontons un problème avec votre recherche",
+                textAlign: TextAlign.center),
+          ));
+          break;
         default:
-          return SizedBox();
+          return Center(
+              child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text("Entrez une expression à chercher",
+                textAlign: TextAlign.center),
+          ));
       }
     });
   }
@@ -167,6 +227,10 @@ class SearchScreen extends SearchDelegate {
             );
             break;
           case FutureStatus.fulfilled:
+            if (_searchStore.companies.result.length <= 0) {
+              return Center(
+                  child: Text("Aucun élement ne correspond à votre recherche"));
+            }
             return ListView.builder(
               itemBuilder: (context, i) {
                 return ListTile(
@@ -208,8 +272,22 @@ class SearchScreen extends SearchDelegate {
             );
 
             break;
+          case FutureStatus.rejected:
+            return Center(
+                child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                  "Oups! nous rencontons un problème avec votre recherche",
+                  textAlign: TextAlign.center),
+            ));
+            break;
           default:
-            return SizedBox();
+            return Center(
+                child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text("Entrez une expression à chercher",
+                  textAlign: TextAlign.center),
+            ));
         }
       });
     }
